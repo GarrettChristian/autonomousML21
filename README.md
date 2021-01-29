@@ -1,4 +1,4 @@
-# autonomousMLrepo1
+# autonomous ML Garrett Christian
 repo for me to test things related to my autonomous vehicles class
 
 ## Steps taken to install and set up my VM
@@ -38,3 +38,13 @@ repo for me to test things related to my autonomous vehicles class
 - jupyter serverextension enable --user nbgrader.server_extensions.validate_assignment
 - added an alias to my .bash_aliases to start my virtual environment: alias auto="source $HOME/csAuto_venv/bin/activate"
 - took another snapshot after performing set up
+
+## steps to run Pose Tracking
+- sudo apt install npm -g n
+- sudo apt install node.js 
+- sudo n stable
+- npm i
+- npm start
+- got an error running react apps on ubuntu used: https://stackoverflow.com/questions/55763428/react-native-error-enospc-system-limit-for-number-of-file-watchers-reached to resolve
+- echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
+- sudo sysctl -p
