@@ -1,7 +1,7 @@
 # autonomousMLrepo1
 repo for me to test things related to my autonomous vehicles class
 
-## Steps taken to install my VM
+## Steps taken to set and install my VM
 - Installed the Ubuntu Bionic Linux Mint 19.3 “Tricia” Cinnamon from here: https://linuxmint.com/edition.php?id=274 using the Harvard School of Engineering Mirror
 - Added the image to my copy of VMWare Fusion.
 - Booted the image clicked the disk to install
