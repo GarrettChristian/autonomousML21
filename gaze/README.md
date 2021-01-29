@@ -14,4 +14,6 @@ Steps I have take so far
 - pip install cython matplotlib
 - pip install pydot future networkx
 - pip install torch torchvision (https://pytorch.org/get-started/locally/#linux-pip)
-- 
+- python -c 'from caffe2.python import core' 2>/dev/null && echo "Success" || echo "Failure"
+
+So it was at this point when I realized that I can't use cuda with VMware Fusion
