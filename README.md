@@ -48,3 +48,10 @@ repo for me to test things related to my autonomous vehicles class
 - got an error running react apps on ubuntu used: https://stackoverflow.com/questions/55763428/react-native-error-enospc-system-limit-for-number-of-file-watchers-reached to resolve
 - echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
 - sudo sysctl -p
+
+## steps to run speech 
+- pip install SpeechRecognition
+- sudo apt-get install python3 python3-all-dev python3-pip build-essential swig git libpulse-dev libasound2-dev
+- pip3 install pocketsphinx
+- sudo apt-get install portaudio19-dev python-pyaudio
+- pip install PyAudio

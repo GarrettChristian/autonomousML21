@@ -2,3 +2,6 @@
 
 - cool guide https://realpython.com/python-speech-recognition/#how-speech-recognition-works-an-overview looks like most of them utilize apis
 - https://stackabuse.com/introduction-to-speech-recognition-with-python/ same info however it told me that recognize_sphinx(): Uses PocketSphinx API can be used offline so tha might be the one to try
+- https://pypi.org/project/pocketsphinx/
+- https://www.codesofinterest.com/2017/03/python-speech-recognition-pocketsphinx.html
+
