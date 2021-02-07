@@ -17,7 +17,7 @@ repo for me to test things related to my autonomous vehicles class
 - Followed the steps listed here: https://w3.cs.jmu.edu/molloykp/teaching/cs445/cs445_2020Fall/resources/workStationConfig.php from professor molloys Machine Learning class restated below
 - sudo apt-get install python3-distutils python3-pip python3-dev python3-venv
 - cd # places you in your home directory
-- python3 -m venv cs445_venv
+- python3 -m venv csAuto_venv
 - source $HOME/csAuto_venv/bin/activate
 - pip install --upgrade pip
 - pip install wheel

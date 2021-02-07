@@ -16,4 +16,11 @@ Steps I have take so far
 - pip install torch torchvision (https://pytorch.org/get-started/locally/#linux-pip)
 - python -c 'from caffe2.python import core' 2>/dev/null && echo "Success" || echo "Failure"
 
-So it was at this point when I realized that I can't use cuda with VMware Fusion
+So it was at this point when I realized that I can't use cuda with VMware Fusion since my gpu doesn't carry over
+
+## working on mac
+
+- following this guide https://towardsdatascience.com/real-time-eye-tracking-using-opencv-and-dlib-b504ca724ac6
+- pip install opencv-python
+- pip install dlib
+- 
