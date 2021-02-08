@@ -14,7 +14,12 @@ planning:
 - git clone https://github.com/CMU-Perceptual-Computing-Lab/openpose
 - cd openpose/
 - git submodule update --init --recursive --remote
-- brew install cmake
+- brew install --cask cmake
 - brew install caffe (this one was big...)
 - move into openpose/scripts/osx/install_bre.sh bash scripts/osx/install_brew.sh
 - bash scripts/osx/install_deps.sh
+
+- cd build/
+- make -j`nproc` or mac make -j`sysctl -n hw.logicalcpu`
+
+- can't get around the free invalid pointer error thinking about switching to vm and trying to install tensorflow with cpu???
