@@ -23,3 +23,29 @@ planning:
 - make -j`nproc` or mac make -j`sysctl -n hw.logicalcpu`
 
 - can't get around the free invalid pointer error thinking about switching to vm and trying to install tensorflow with cpu???
+
+---
+
+## trying on vm https://medium.com/@erica.z.zheng/installing-openpose-on-ubuntu-18-04-cuda-10-ebb371cf3442
+- sudo apt-get install cmake-qt-gui
+- sudo apt-get install autoconf automake libtool curl make g++ unzip -y 
+- sudo apt-get install qtbase5-dev
+- Go to OpenPose root folder sudo bash ./scripts/ubuntu/install_deps.sh 
+- sudo apt install caffe-cuda
+- git clone https://github.com/google/protobuf.git
+- cd protobuf
+- ./autogen.sh
+- ./configure
+- make
+- make check
+- sudo make install
+- sudo ldconfig
+- sudo apt-get install libopencv-dev
+- cd openpose 
+- cmake gui configure generate
+- cd /build then make
+
+## runing examples
+- ./build/examples/openpose/openpose.bin
+- /build/examples/openpose/openpose.bin --image_dir ../input --write_images ../output
+- python3 pose2.py --image_path chan.jpg 
