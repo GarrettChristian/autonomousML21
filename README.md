@@ -55,3 +55,21 @@ repo for me to test things related to my autonomous vehicles class
 - pip3 install pocketsphinx
 - sudo apt-get install portaudio19-dev python-pyaudio
 - pip install PyAudio
+
+## setting up ros
+- https://www.programmersought.com/article/79985355625/
+- sudo sh -c '. /etc/lsb-release && echo "deb http://mirrors.ustc.edu.cn/ros/ubuntu/ `lsb_release -cs` main" > /etc/apt/sources.list.d/ros-latest.list'
+- sudo vim /etc/apt/sources.list.d/ros-latest.list
+- change tricia to bionic
+- sudo apt-get update
+- sudo aptitude install ros-melodic-desktop-full
+- source /opt/ros/melodic/setup.bash
+- mkdir -p ~/catkin_ws/src
+- cd ~/catkin_ws/
+- catkin_make
+- source devel/setup.bash
+
+
+
+
+

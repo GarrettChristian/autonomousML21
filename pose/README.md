@@ -47,5 +47,5 @@ planning:
 
 ## runing examples
 - ./build/examples/openpose/openpose.bin
-- /build/examples/openpose/openpose.bin --image_dir ../input --write_images ../output
+- ./build/examples/openpose/openpose.bin --image_dir ../input --write_images ../output
 - python3 pose2.py --image_path chan.jpg 

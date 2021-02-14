@@ -49,6 +49,8 @@ def main():
 
     params = set_params()
 
+    print("setting params")
+
     #Constructing OpenPose object allocates GPU memory
     # openpose = op(params)
     # Starting OpenPose
@@ -56,7 +58,7 @@ def main():
     opWrapper.configure(params)
     opWrapper.execute()
     
-    print("here")
+    print("about to capture")
 
     #Opening OpenCV stream
     stream = cv2.VideoCapture(0)
