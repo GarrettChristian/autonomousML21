@@ -69,7 +69,12 @@ repo for me to test things related to my autonomous vehicles class
 - catkin_make
 - source devel/setup.bash
 
-
+## running bag files
+- source /opt/ros/melodic/setup.bash
+- roscore
+- new terminal
+- rosrun rviz rviz
+- rosbag play <bagfile name>
 
 
 
