@@ -49,7 +49,8 @@ planning:
 - Caffe_LIBS set to /usr/local/lib/libcaffe.dylib -->
 - BUILD_PYTHON set to true
 - cmake generate
-- cd /build then make
+<!-- - cd /build then make -->
+- cd build then make -j`nproc`
 
 ## runing examples
 - ./build/examples/openpose/openpose.bin
