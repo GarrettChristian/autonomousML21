@@ -42,10 +42,19 @@ planning:
 - sudo ldconfig
 - sudo apt-get install libopencv-dev
 - cd openpose 
-- cmake gui configure generate
+- cmake gui configure 
+<!-- - BUILD_CAFFE set to false -->
+- GPU_MODE set to CPU_ONLY (as recommended for MacOS)
+<!-- - Caffe_INCLUDE_DIRS set to /usr/local/include/caffe
+- Caffe_LIBS set to /usr/local/lib/libcaffe.dylib -->
+- BUILD_PYTHON set to true
+- cmake generate
 - cd /build then make
 
 ## runing examples
 - ./build/examples/openpose/openpose.bin
 - ./build/examples/openpose/openpose.bin --image_dir ../input --write_images ../output
-- python3 pose2.py --image_path chan.jpg 
+- python3 pose2.py --image_path chan.jpg
+
+
+

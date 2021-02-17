@@ -74,7 +74,28 @@ repo for me to test things related to my autonomous vehicles class
 - roscore
 - new terminal
 - rosrun rviz rviz
+- new terminal
 - rosbag play <bagfile name>
+- rosbag play -l <bagfile name> (loop)
 
+## setting up a python 2.7 env
+- virtualenv -p /usr/bin/python auto_venv
+- source auto_venv/bin/activate
+- python -m pip install --upgrade pip
+- pip install wheel
+- pip install setuptools
+- pip install numpy
+- pip install matplotlib
+- pip install notebook
+- pip install pandas
+- pip install seaborn
+- pip install sklearn
+- pip install tensorflow
+- pip install Keras
+- pip install tensorflow_datasets
+- pip install pocketsphinx
+- pip install PyAudio
+- pip2 install opencv-python==4.2.0.32
+- pip install opencv-contrib-python==4.2.0.32
 
 
