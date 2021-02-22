@@ -107,3 +107,34 @@ repo for me to test things related to my autonomous vehicles class
 - mkdir -p ~/catkin_ws/src
 - cd ~/catkin_ws/
 - catkin_make
+
+## Changing to python2 open pose
+- https://medium.com/@erica.z.zheng/installing-openpose-on-ubuntu-18-04-cuda-10-ebb371cf3442
+- sudo apt-get install cmake-qt-gui
+- sudo apt-get install autoconf automake libtool curl make g++ unzip -y 
+- sudo apt-get install qtbase5-dev
+- Go to OpenPose root folder sudo bash ./scripts/ubuntu/install_deps.sh 
+- sudo apt install caffe-cuda
+- git clone https://github.com/google/protobuf.git
+- cd protobuf
+- ./autogen.sh
+- ./configure
+- make
+- make check
+- sudo make install
+- sudo ldconfig
+- sudo apt-get install libopencv-dev
+- cd openpose 
+- cmake gui configure 
+- GPU_MODE set to CPU_ONLY (as recommended for MacOS)
+- BUILD_PYTHON set to true
+- PYTHON_EXECUTABLE=/usr/bin/python2.7
+- PYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython2.7m.so”
+- to find your executable python, import sys, print(sys.executable)
+- to find library print(sys.path)
+- cmake generate
+- cd build then make -j`nproc`
+
+## attempting to run old pose tracking again
+- pip install rospkg
+- pip install python-vlc==3.0.7110
