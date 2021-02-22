@@ -55,7 +55,11 @@ planning:
 ## runing examples
 - ./build/examples/openpose/openpose.bin
 - ./build/examples/openpose/openpose.bin --image_dir ../input --write_images ../output
-- python3 pose2.py --image_path chan.jpg
+- python pose2.py --image_path chan.jpg
 
+
+# restaring
+- sudo apt-get install autoconf automake libtool curl make g++ unzip -y
+- sudo apt-get install libgoogle-glog-dev
 
 

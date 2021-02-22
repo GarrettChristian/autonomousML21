@@ -79,6 +79,7 @@ repo for me to test things related to my autonomous vehicles class
 - rosbag play -l <bagfile name> (loop)
 
 ## setting up a python 2.7 env
+- sudo apt install virtualenv
 - virtualenv -p /usr/bin/python auto_venv
 - source auto_venv/bin/activate
 - python -m pip install --upgrade pip
@@ -93,9 +94,16 @@ repo for me to test things related to my autonomous vehicles class
 - pip install tensorflow
 - pip install Keras
 - pip install tensorflow_datasets
+- pip install SpeechRecognition
 - pip install pocketsphinx
 - pip install PyAudio
 - pip2 install opencv-python==4.2.0.32
 - pip install opencv-contrib-python==4.2.0.32
 
-
+- sudo apt-get install cmake-qt-gui
+- sudo apt-get install autoconf automake libtool curl make g++ unzip -y 
+- sudo apt-get install qtbase5-de
+- pip install catkin_pkg
+- mkdir -p ~/catkin_ws/src
+- cd ~/catkin_ws/
+- catkin_make
