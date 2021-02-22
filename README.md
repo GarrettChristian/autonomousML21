@@ -138,3 +138,12 @@ repo for me to test things related to my autonomous vehicles class
 ## attempting to run old pose tracking again
 - pip install rospkg
 - pip install python-vlc==3.0.7110
+
+## zed wrapper!!!
+- http://wiki.ros.org/zed-ros-wrapper
+- https://github.com/stereolabs/zed-ros-wrapper/
+- https://www.stereolabs.com/developers/
+
+
+
+
