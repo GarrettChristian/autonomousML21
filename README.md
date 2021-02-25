@@ -143,7 +143,26 @@ repo for me to test things related to my autonomous vehicles class
 - http://wiki.ros.org/zed-ros-wrapper
 - https://github.com/stereolabs/zed-ros-wrapper/
 - https://www.stereolabs.com/developers/
+- needs cuda :(
 
 
 
-
+## installing cuda steps
+- Following this guide https://mrprajesh.blogspot.com/2018/11/install-cuda-10-on-linux-mint-19-or.html
+- Getting cuDNN (10.2) from: https://developer.nvidia.com/rdp/cudnn-download
+- Cuda 10.2 from https://developer.nvidia.com/cuda-10.2-download-archive
+- Cuda tool kit installation instructions https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html
+- sudo apt-get install build-essential dkms
+- sudo apt-get install freeglut3 freeglut3-dev libxi-dev libxmu-dev
+- Down load deb file from the above 
+- sudo dpkg -i cuda-repo-ubuntu1804-10-0-local-10.0.130-410.48_1.0-1_amd64.deb
+- sudo apt-key add /var/cuda-repo-10-0-local-10.0.130-410.48/7fa2af80.pub
+- sudo apt-get update
+- sudo apt-get install cuda
+- "cuda-install-samples-10.0.sh ~/install" installs sample files
+- cd into the folder "NVIDIA_CUDA-10.0_Samples"
+- make -j2
+- Add the "PATH=$PATH:/usr/local/cuda/bin"  to your "~/.bashrc" 
+- run "deviceQuery" to verify the cuda installation.  And do the post installation formalities
+- sudo apt-get install g++ freeglut3-dev build-essential libx11-dev \
+    libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev
