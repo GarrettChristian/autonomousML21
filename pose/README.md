@@ -58,8 +58,12 @@ planning:
 - python pose2.py --image_path chan.jpg
 
 
-# restaring
+## restaring
 - sudo apt-get install autoconf automake libtool curl make g++ unzip -y
 - sudo apt-get install libgoogle-glog-dev
 
+## trying to replicate pose tracking with just mriduls method
+- https://github.com/stereolabs/zed-openpose a specific zed open pose implementation
+- https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/02_output.md explanation of key point output 2 & 5 are the {0: u'Nose', 1: u'Neck', 2: u'RShoulder', 3: u'RElbow', 4: u'RWrist', 5: u'LShoulder', 6: u'LElbow', 7: u'LWrist', 8: u'MidHip', 9: u'RHip', 10: u'RKnee', 11: u'RAnkle', 12: u'LHip', 13: u'LKnee', 14: u'LAnkle', 15: u'REye', 16: u'LEye', 17: u'REar', 18: u'LEar', 19: u'LBigToe', 20: u'LSmallToe', 21: u'LHeel', 22: u'RBigToe', 23: u'RSmallToe', 24: u'RHeel', 25: u'Background'}
+- 
 
