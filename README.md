@@ -166,3 +166,67 @@ repo for me to test things related to my autonomous vehicles class
 - run "deviceQuery" to verify the cuda installation.  And do the post installation formalities
 - sudo apt-get install g++ freeglut3-dev build-essential libx11-dev \
     libxmu-dev libxi-dev libglu1-mesa libglu1-mesa-dev
+
+
+
+
+
+x## installing cuda steps
+- Following this guide https://mrprajesh.blogspot.com/2018/11/install-cuda-10-on-linux-mint-19-or.html
+- Getting cuDNN (10.2) from: https://developer.nvidia.com/rdp/cudnn-download
+- Cuda 10.2 from https://developer.nvidia.com/cuda-10.2-download-archive
+- Cuda tool kit installation instructions https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html
+- wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin
+- sudo mv cuda-ubuntu1804.pin /etc/apt/preferences.d/cuda-repository-pin-600
+- wget https://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda-repo-ubuntu1804-10-2-local-10.2.89-440.33.01_1.0-1_amd64.deb
+- sudo dpkg -i cuda-repo-ubuntu1804-10-2-local-10.2.89-440.33.01_1.0-1_amd64.deb
+- sudo apt-key add /var/cuda-repo-10-2-local-10.2.89-440.33.01/7fa2af80.pub
+- sudo apt-get update
+- sudo apt-get -y install cuda
+- sudo vim /etc/profile.d/cuda.sh
+- export PATH=$PATH:/usr/local/cuda/bin
+- export CUDADIR=/usr/local/cuda
+- sudo chmod +x /etc/profile.d/cuda.sh
+- sudo vim /etc/ld.so.conf.d/cuda.conf
+- /usr/local/cuda/lib64
+- verify installation: nvcc --version
+
+## Installing cudnn
+- Following https://docs.nvidia.com/deeplearning/cudnn/install-guide/index.html
+- Go to: https://developer.nvidia.com/rdp/cudnn-archive
+- install the tar only!!!! Library for linux x86 8.0.5.39
+- tar -xzvf cudnn-x.x-linux-x64-v8.x.x.x.tgz
+- sudo cp cuda/include/cudnn*.h /usr/local/cuda/include 
+- sudo cp -P cuda/lib64/libcudnn* /usr/local/cuda/lib64 
+- sudo chmod a+r /usr/local/cuda/include/cudnn*.h /usr/local/cuda/lib64/libcudnn*
+
+
+
+
+
+
+## verifying cuda
+- cd to /usr/local/cuda/samples
+- sudo make -k
+- cd /usr/local/cuda/samples/bin/x86_64/linux/release
+- ./deviceQuery
+
+## verifying cudnn
+- cp -r /usr/src/cudnn_samples_v8/ $HOME
+- cd  $HOME/cudnn_samples_v8/mnistCUDNN
+- make clean && make
+- ./mnistCUDNN
+- should see: Test passed!
+
+## zed wrapper
+- install zed sdk for cuda 10.2
+- Forbidden on school server :( 
+
+## Fixing open pose 
+- usual with new cmake version 3.15
+- exec /usr/bin/python
+- lib /usr/bin/python2.7
+- build python yes 
+
+## Installing zed wrapper
+- Grabbed zed sdk install when at home brought it with ssd
