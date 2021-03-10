@@ -26,8 +26,8 @@ from sensor_msgs.msg import Image
 from rospy.numpy_msg import numpy_msg
 import json
 # Add openpose to system PATH and import
-# sys.path.append(os.path.join(os.path.expanduser("~"), 'catkin_ws/src/openpose/build/python', ''))
-sys.path.append('./openpose/build/python/')
+sys.path.append(os.path.join(os.path.expanduser("~"), 'catkin_ws/src/openpose/build/python', ''))
+# sys.path.append('./openpose/build/python/')
 from openpose import pyopenpose as op
 class pose_tracking(object):
     
@@ -67,13 +67,14 @@ class pose_tracking(object):
         ######################
         # Custom Params (refer to include/openpose/flags.hpp for more parameters)
         self.params = dict()
-        self.params["model_folder"] = os.path.join(os.path.expanduser("~"), 'catkin_ws/src/autonomousMLgc/pose/openpose/models/', '')
+        self.params["model_folder"] = os.path.join(os.path.expanduser("~"), 'catkin_ws/src/openpose/models/', '')
+        self.params["number_people_max"] = 1
 
         # Starting OpenPose
         self.opWrapper = op.WrapperPython()
         self.opWrapper.configure(self.params)
         self.opWrapper.start()
-        #self.initial_safety(None)
+        self.initial_safety(None)
         rate = rospy.Rate(5)
         while not rospy.is_shutdown():
             rate.sleep()
@@ -83,14 +84,17 @@ class pose_tracking(object):
     #######################
 
     def sendPassengerUnsafe(self):
+        print("unsafe posted")
         self.passenger_safe_pub.publish(False)
 
 
     def sendPassengerSafe(self):
+        print("safe posted")
         self.passenger_safe_pub.publish(True)
 
 
     def sendPassengerExit(self):
+        print("exit posted")
         self.passenger_exit_pub.publish(True)
         
     def update_image(self, msg):
@@ -156,7 +160,7 @@ class pose_tracking(object):
         # Process image
         datum = op.Datum()
         datum.cvInputData = final_image
-        self.opWrapper.emplaceAndPop([datum])
+        self.opWrapper.emplaceAndPop(op.VectorDatum([datum]))
 
         # Display Image
         frame = datum.poseKeypoints

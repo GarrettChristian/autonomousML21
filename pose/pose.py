@@ -30,7 +30,7 @@ def set_params():
     params["disable_blending"] = False
     # Ensure you point to the correct path where models are located
     # params["default_model_folder"] = "./openpose/models" # dir_path + "/../../../models/"
-    params["model_folder"] = "./openpose/models" 
+    params["model_folder"] = os.path.join(os.path.expanduser("~"), 'catkin_ws/src/openpose/models/', '')
     return params
 
 
@@ -38,7 +38,7 @@ def main():
 
     try:
         # Change these variables to point to the correct folder (Release/x64 etc.)
-        sys.path.append('./openpose/build/python/')
+        sys.path.append(os.path.join(os.path.expanduser("~"), 'catkin_ws/src/openpose/build/python/', ''))
         print(sys.path)
         # If you run `make install` (default path is `/usr/local/python` for Ubuntu), you can also access the OpenPose/python module from there. This will install OpenPose and the python library at your desired installation path. Ensure that this is in your python path in order to use it.
         # sys.path.append('/usr/local/python')
