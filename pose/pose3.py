@@ -19,8 +19,12 @@ class pose_tracking:
 
         # publishing to and subscribing to
         self.passenger_safe_pub = rospy.Publisher('/passenger_safe', Bool, queue_size=10)
+<<<<<<< HEAD
         # rospy.Subscriber('/zed/image_raw', Image, self.classify_image)
         rospy.Subscriber("/zed/zed_node/left/image_rect_color", Image, self.classify_image)
+=======
+        rospy.Subscriber('/zed/image_raw', Image, self.classify_image)
+>>>>>>> 53b46c4a9a63bd1daddba765a459464fdf39281a
 
         self.bridge = CvBridge()
 
