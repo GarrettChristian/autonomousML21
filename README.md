@@ -184,11 +184,10 @@ x## installing cuda steps
 - sudo apt-get update
 - sudo apt-get -y install cuda
 - sudo vim /etc/profile.d/cuda.sh
-- export PATH=$PATH:/usr/local/cuda/bin
-- export CUDADIR=/usr/local/cuda
-- sudo chmod +x /etc/profile.d/cuda.sh
-- sudo vim /etc/ld.so.conf.d/cuda.conf
-- /usr/local/cuda/lib64
+- vim bash.rc
+- add the following to the end of bash.rc
+- export PATH="/home/$USER/bin/node-v14.16.0.0-linux-x64/bin/:$PATH"
+- export PATH="$PATH:/usr/local/cuda/bin"
 - verify installation: nvcc --version
 
 ## Installing cudnn
