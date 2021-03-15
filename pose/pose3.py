@@ -19,19 +19,20 @@ class pose_tracking:
 
         # publishing to and subscribing to
         self.passenger_safe_pub = rospy.Publisher('/passenger_safe', Bool, queue_size=10)
-<<<<<<< HEAD
         # rospy.Subscriber('/zed/image_raw', Image, self.classify_image)
         rospy.Subscriber("/zed/zed_node/left/image_rect_color", Image, self.classify_image)
-=======
-        rospy.Subscriber('/zed/image_raw', Image, self.classify_image)
->>>>>>> 53b46c4a9a63bd1daddba765a459464fdf39281a
+        # rospy.Subscriber("/zed/zed_node/left_raw/image_raw_color", Image, self.classify_image)
+        # rospy.Subscriber("/zed/zed_node/left_raw/image_raw_color", Image, self.classify_image)
+        # rospy.Subscriber("/zed/zed_node/stereo_raw/image_raw_color", Image, self.classify_image)
+
+
 
         self.bridge = CvBridge()
 
         # set up openpose params
         self.params = dict()
         self.params["model_folder"] = os.path.join(os.path.expanduser("~"), 'catkin_ws/src/openpose/models/', '')
-        self.params["number_people_max"] = 1
+        # self.params["number_people_max"] = 1
 
         # Starting OpenPose
         self.opWrapper = op.WrapperPython()
@@ -68,24 +69,38 @@ class pose_tracking:
             print(e)
 
         (rows, cols, channels) = cv_image.shape
-        if cols > 60 and rows > 60 :
-            cv2.circle(cv_image, (50,50), 10, 255)
 
-        cv_image = cv_image[0:rows, 0:cols/2]
-        flip_image = cv2.flip(cv_image, -1) # flip the zed image right side up
-        print(flip_image.shape)
+        
+        # height = int(rows * 10 // 100)
+        # width = int(cols * 10 // 100)
+
+
+        # print("cols ", cols)
+        # print("rows ", rows)
+        
+        # print("width ", width)
+        # print("height ", height)
+
+        # cv_image = cv_image[0:rows, 0:cols/2]width, 
+        # cv_image = cv2.resize(cv_image, (100, 200))
+        # cv_image = cv2.resize(cv_image, (height, width))
+
+        cv_image = cv2.flip(cv_image, -1) # flip the zed image right side up
+        # print(flip_image.shape)
 
         # visually draw boundaries
-        line_thickness = 2
-        left_boundary = 150
-        right_boundary = cols/2 - 150
-        cv2.line(flip_image, (left_boundary, 0), (left_boundary, rows), (0, 255, 0), thickness=line_thickness)
-        cv2.line(flip_image, (right_boundary, 0), (right_boundary, rows), (0, 255, 0), thickness=line_thickness)
+        # line_thickness = 2
+        # left_boundary = 150
+        # right_boundary = cols/2 - 150
+        # cv2.line(flip_image, (left_boundary, 0), (left_boundary, rows), (0, 255, 0), thickness=line_thickness)
+        # cv2.line(flip_image, (right_boundary, 0), (right_boundary, rows), (0, 255, 0), thickness=line_thickness)
 
         # Process image
         datum = op.Datum()
-        datum.cvInputData = flip_image
+        datum.cvInputData = cv_image
+        print("here1")
         self.opWrapper.emplaceAndPop(op.VectorDatum([datum]))
+        print("here2")
 
         # Display Image
         poseKeypoints = datum.poseKeypoints
@@ -95,16 +110,16 @@ class pose_tracking:
         # print("right shoulder ", poseKeypoints[0][5])
 
         # validate that we're within the boundaries
-        left_shoulder = poseKeypoints[0][2][0]
-        right_shoulder = poseKeypoints[0][5][0]
+        # left_shoulder = poseKeypoints[0][2][0]
+        # right_shoulder = poseKeypoints[0][5][0]
 
-        if (left_shoulder > left_boundary
-            and left_shoulder < right_boundary
-            and right_shoulder > left_boundary
-            and right_shoulder < right_boundary):
-            self.sendPassengerSafe()
-        else:
-            self.sendPassengerUnsafe()
+        # if (left_shoulder > left_boundary
+        #     and left_shoulder < right_boundary
+        #     and right_shoulder > left_boundary
+        #     and right_shoulder < right_boundary):
+        #     self.sendPassengerSafe()
+        # else:
+        #     self.sendPassengerUnsafe()
 
         cv2.imshow("Frame", datum.cvOutputData)
         cv2.waitKey(3)
