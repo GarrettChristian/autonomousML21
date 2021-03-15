@@ -104,38 +104,71 @@ class pose_tracking:
                 # get x and y locations of neck
                 x_neck = int(pose[1][0])
                 y_neck = int(pose[1][1])
-                # print("x_neck ", x_neck)
-                # print("y_neck ", y_neck)
 
-                distance = self.recorded_depth[(y_neck, x_neck)]
-                print("meters at pose ", self.recorded_depth[(y_neck, x_neck)], " from here ", (y_neck, x_neck))
+                # print("distance valid")
+                x_left_shoulder = int(pose[2][0])
+                y_left_shoulder = int(pose[2][1])
+                x_right_shoulder = int(pose[5][0])
+                y_right_shoulder = int(pose[5][1])
 
-                # if (math.isnan(distance) or (distance > 0 and distance < 1.1)):
-                if (not math.isnan(distance) and distance > 0 and distance < 1.5):
 
-                    print("Secondary at pose ", self.recorded_depth[(y_neck, x_neck)], " from here ", (y_neck, x_neck))
+                # print("NECK AT NAN OR GOOD: ", (y_neck, x_neck))
+                # print("LEFT SHOUL AT NAN OR GOOD: ", (y_left_shoulder, x_left_shoulder))
+                # print("RIGHT SHOUL AT NAN OR GOOD: ", (y_right_shoulder, x_right_shoulder))
+
+                print("NECK AT NAN OR GOOD: ", self.recorded_depth[(y_neck, x_neck)])
+                print("LEFT SHOUL AT NAN OR GOOD: ", self.recorded_depth[(y_left_shoulder, x_left_shoulder)])
+                print("RIGHT SHOUL AT NAN OR GOOD: ", self.recorded_depth[(y_right_shoulder, x_right_shoulder)])
+                
+                neck_distance = self.recorded_depth[(y_neck, x_neck)]
+                left_shoulder_dist = self.recorded_depth[(y_left_shoulder, x_left_shoulder)]
+                right_shoulder_dist = self.recorded_depth[(y_right_shoulder, x_right_shoulder)]
+
+                distance = float("-inf")
+
+                if not math.isnan(neck_distance):
+                    distance = max(distance, neck_distance)
+                if not math.isnan(left_shoulder_dist):
+                    distance = max(distance, left_shoulder_dist)
+                if not math.isnan(right_shoulder_dist):
+                    distance = max(distance, right_shoulder_dist)
+                if distance == float("-inf"):
+                    distance = float('NaN')
+
+
+
+                # distance = self.recorded_depth[(y_neck, x_neck)]
+                print("meters at pose ", distance)
+
+                if (math.isnan(distance) or (distance > 0 and distance < .9)):
+                # if (not math.isnan(distance) and distance > 0 and distance < 1.5):
 
                     # cv2.line(cv_image, (0, y_neck), (x, y_neck), (0, 255, 0), thickness=2)
                     # cv2.line(cv_image, (x_neck, 0), (x_neck, y), (0, 255, 0), thickness=2)
 
-                    # print("distance valid")
-                    x_left_shoulder = pose[2][0]
-                    y_left_shoulder = pose[2][1]
-                    x_right_shoulder = pose[5][0]
-                    y_right_shoulder = pose[5][1]
+                    distance_text = "dist: {}".format(distance)
+                    print(distance_text)
+                    cv2.putText(cv_image, distance_text, (x_left_shoulder + 5, y_left_shoulder + 5), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA, False)
+                    cv2.circle(cv_image, (x_neck, y_neck), 4, (255, 0, 0), thickness=2)
+                    cv2.circle(cv_image, (x_left_shoulder, y_left_shoulder), 4, (255, 0, 0), thickness=2)
+                    cv2.circle(cv_image, (x_right_shoulder, y_right_shoulder), 4, (255, 0, 0), thickness=2)
 
-                    cv2.circle(cv_image, (x_neck, y_neck), 4, (0, 255, 0), thickness=2)
-                    cv2.circle(cv_image, (x_left_shoulder, y_left_shoulder), 4, (0, 255, 0), thickness=2)
-                    cv2.circle(cv_image, (x_right_shoulder, y_right_shoulder), 4, (0, 255, 0), thickness=2)
-
-                    if (x_left_shoulder > left_boundary
+                    in_boundaries = (x_left_shoulder > left_boundary
                         and x_left_shoulder < right_boundary
                         and x_right_shoulder > left_boundary
-                        and x_right_shoulder < right_boundary):
-                        # and not math.isnan(distance)):
+                        and x_right_shoulder < right_boundary)
+
+                    # in boundaries with within our distance threshold
+                    if (in_boundaries and not math.isnan(distance)):
                         valid_pose += 1
-                    else:
+                    # in boundaries and nan
+                    elif (in_boundaries):
                         invalid_pose += 1
+                    # not in boundaries and you have a within our distance threshold
+                    elif (not in_boundaries and not math.isnan(distance)):
+                        invalid_pose += 1
+                    # else not in boundaries and bad dist so cart is empty
 
 
 
