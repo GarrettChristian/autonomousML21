@@ -116,9 +116,9 @@ class pose_tracking:
                 # print("LEFT SHOUL AT NAN OR GOOD: ", (y_left_shoulder, x_left_shoulder))
                 # print("RIGHT SHOUL AT NAN OR GOOD: ", (y_right_shoulder, x_right_shoulder))
 
-                print("NECK AT NAN OR GOOD: ", self.recorded_depth[(y_neck, x_neck)])
-                print("LEFT SHOUL AT NAN OR GOOD: ", self.recorded_depth[(y_left_shoulder, x_left_shoulder)])
-                print("RIGHT SHOUL AT NAN OR GOOD: ", self.recorded_depth[(y_right_shoulder, x_right_shoulder)])
+                # print("NECK AT NAN OR GOOD: ", self.recorded_depth[(y_neck, x_neck)])
+                # print("LEFT SHOUL AT NAN OR GOOD: ", self.recorded_depth[(y_left_shoulder, x_left_shoulder)])
+                # print("RIGHT SHOUL AT NAN OR GOOD: ", self.recorded_depth[(y_right_shoulder, x_right_shoulder)])
                 
                 neck_distance = self.recorded_depth[(y_neck, x_neck)]
                 left_shoulder_dist = self.recorded_depth[(y_left_shoulder, x_left_shoulder)]
@@ -138,16 +138,16 @@ class pose_tracking:
 
 
                 # distance = self.recorded_depth[(y_neck, x_neck)]
-                print("meters at pose ", distance)
+                # print("meters at pose ", distance)
 
-                if (math.isnan(distance) or (distance > 0 and distance < .9)):
+                if (math.isnan(distance) or (distance > 0 and distance < 1.2)):
                 # if (not math.isnan(distance) and distance > 0 and distance < 1.5):
 
                     # cv2.line(cv_image, (0, y_neck), (x, y_neck), (0, 255, 0), thickness=2)
                     # cv2.line(cv_image, (x_neck, 0), (x_neck, y), (0, 255, 0), thickness=2)
 
                     distance_text = "dist: {}".format(distance)
-                    print(distance_text)
+                    # print(distance_text)
                     cv2.putText(cv_image, distance_text, (x_left_shoulder + 5, y_left_shoulder + 5), 
                         cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA, False)
                     cv2.circle(cv_image, (x_neck, y_neck), 4, (255, 0, 0), thickness=2)
