@@ -45,7 +45,7 @@ class pose_tracking:
         self.depth_threshold = 1.2 # meters
 
         # empty check
-        self.usual_chair_dist = [1.18, 1.18, 1.19, 1.09, 1.05, 1.05]
+        self.usual_chair_dist = [1.18, 1.18, 1.19, 1.13, 1.05, 1.06]
 
         rate = rospy.Rate(10)
         while not rospy.is_shutdown():
@@ -74,7 +74,7 @@ class pose_tracking:
     #     self.cart_empty_pub.publish(True)
 
     def sendCartEmptyPose(self, empty, safe):
-        empty_safe_state = json.dumps({'passenger': empty, 'safe': safe})
+        empty_safe_state = json.dumps({'passenger': not empty, 'safe': safe})
         # print(empty_safe_state)
         # print(type(empty_safe_state))
         print(empty_safe_state)
@@ -156,7 +156,7 @@ class pose_tracking:
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA, False)
                 usual_dist = self.usual_chair_dist[index]
 
-                if (chair_distance > usual_dist + 0.02 or chair_distance < usual_dist - 0.02):
+                if (chair_distance > usual_dist + 0.08 or chair_distance < usual_dist - 0.02):
                     empty = False
 
             # Process image for poses
@@ -260,7 +260,7 @@ class pose_tracking:
         cv_image = cv2.flip(cv_image, -1)
 
         # remove areas that are farther than our cart distance threshold
-        mask = cv2.inRange(cv_image, 0.0, 1.5)
+        mask = cv2.inRange(cv_image, 0.0, 1.6)
         cv_image = cv2.bitwise_and(cv_image, cv_image, mask=mask)
 
         # smooth the image
