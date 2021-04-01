@@ -12,6 +12,8 @@ from zed_interfaces.srv import *
 
 
 def main():
+    rospy.init_node('create_vid')
+
     rospy.wait_for_service('/zed/zed_node/start_svo_recording')
 
     try:
@@ -22,10 +24,10 @@ def main():
     except rospy.ServiceException as e:
         print("Service call failed: %s"%e)
 
-    # try:
-    #     rospy.spin()
-    # except KeyboardInterrupt:
-    #     print("Shutting down")
+    try:
+        rospy.spin()
+    except KeyboardInterrupt:
+        print("Shutting down")
 
 if __name__ == "__main__":
     main()

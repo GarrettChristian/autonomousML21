@@ -45,9 +45,9 @@ class pose_tracking:
         self.depth_threshold = 1.2 # meters
 
         # empty check
-        self.usual_chair_dist = [1.18, 1.18, 1.19, 1.13, 1.05, 1.06]
+        self.usual_chair_dist = [1.18, 1.18, 1.19, 1.13, 1.05, 1.13]
 
-        rate = rospy.Rate(10)
+        rate = rospy.Rate(100)
         while not rospy.is_shutdown():
             rate.sleep()
         cv2.destroyAllWindows()
@@ -146,6 +146,7 @@ class pose_tracking:
             right_x = x - 450
             back_y = 450
             seat_y = 700
+            num_not_empty = 0
             empty_points = [(left_x, back_y), (center_x, back_y), (right_x, back_y),
                 (left_x, seat_y), (center_x, seat_y), (right_x, seat_y)]
             for index in range(len(empty_points)):
@@ -156,8 +157,11 @@ class pose_tracking:
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA, False)
                 usual_dist = self.usual_chair_dist[index]
 
-                if (chair_distance > usual_dist + 0.08 or chair_distance < usual_dist - 0.02):
-                    empty = False
+                if (chair_distance > usual_dist + 0.08 or chair_distance < usual_dist - 0.08):
+                    num_not_empty += 1
+
+            if num_not_empty > 1:
+                empty = False
 
             # Process image for poses
             datum = op.Datum()
@@ -260,7 +264,7 @@ class pose_tracking:
         cv_image = cv2.flip(cv_image, -1)
 
         # remove areas that are farther than our cart distance threshold
-        mask = cv2.inRange(cv_image, 0.0, 1.6)
+        mask = cv2.inRange(cv_image, 0.0, self.depth_threshold)
         cv_image = cv2.bitwise_and(cv_image, cv_image, mask=mask)
 
         # smooth the image
