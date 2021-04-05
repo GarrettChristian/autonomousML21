@@ -23,4 +23,12 @@ So it was at this point when I realized that I can't use cuda with VMware Fusion
 - following this guide https://towardsdatascience.com/real-time-eye-tracking-using-opencv-and-dlib-b504ca724ac6
 - pip install opencv-python
 - pip install dlib
-- 
+
+## just gonna drop what I looked at if anyone wants to reapproach this later 
+
+- pip install opencv-python
+- pip install dlib
+- good read https://towardsdatascience.com/real-time-eye-tracking-using-opencv-and-dlib-b504ca724ac6
+- used https://github.com/antoinelame/GazeTracking
+- the above is very human readable and can be easily modified to do whatever you might need it to do
+- (that's what i did)

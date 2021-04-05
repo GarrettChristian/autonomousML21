@@ -68,8 +68,6 @@ def main():
         wf.writeframes(b''.join(frames))
         wf.close()
 
-        
-
 
 if __name__ == "__main__":
     main()

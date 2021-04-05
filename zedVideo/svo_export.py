@@ -16,6 +16,8 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
+# https://github.com/stereolabs/zed-examples/tree/master/svo%20recording/recording
+# 
 ########################################################################
 
 import sys
@@ -24,6 +26,7 @@ import numpy as np
 import cv2
 from pathlib import Path
 import enum
+from datetime import datetime
 
 
 class AppType(enum.Enum):
@@ -137,6 +140,9 @@ def main():
     while True:
         if zed.grab(rt_param) == sl.ERROR_CODE.SUCCESS:
             svo_position = zed.get_svo_position()
+            
+            # get time stamp
+            timestamp = zed.get_timestamp(sl.TIME_REFERENCE.IMAGE)
 
             # Retrieve SVO images
             zed.retrieve_image(left_image, sl.VIEW.LEFT)
@@ -158,8 +164,17 @@ def main():
                 # Convert SVO image from RGBA to RGB
                 ocv_image_sbs_rgb = cv2.cvtColor(svo_image_sbs_rgba, cv2.COLOR_RGBA2RGB)
 
+                # Flip the video
+                flipped_image = cv2.flip(ocv_image_sbs_rgb, -1)
+
+                # Add time stamp
+                dt = datetime.fromtimestamp(timestamp.get_nanoseconds() // 1000000000)
+                s = dt.strftime('%Y-%m-%d %H:%M:%S')
+                cv2.putText(flipped_image, s, (flipped_image.shape[1] // 2, flipped_image.shape[0] - 10), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA, False)
+                
                 # Write the RGB image in the video
-                video_writer.write(ocv_image_sbs_rgb)
+                video_writer.write(flipped_image)
             else:
                 # Generate file names
                 filename1 = output_path / ("left%s.png" % str(svo_position).zfill(6))
