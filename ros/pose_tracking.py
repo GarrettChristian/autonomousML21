@@ -19,14 +19,11 @@ class pose_tracking:
         rospy.init_node('pose_tracker')
         rospy.loginfo("Started pose tracking node!")
 
-        # publishing to and subscribing to get_poses
+        # subscribing to depth image and color version
         rospy.Subscriber("/zed/zed_node/left/image_rect_color",Image, self.get_poses)
         rospy.Subscriber("/zed/zed_node/depth/depth_registered",Image, self.classify_depth)
         
-        # rospy.Subscriber("/zed/zed_node/left/image_rect_color",Image, self.classify_image)
-        # rospy.Subscriber("/zed/zed_node/depth/depth_registered", Image, self.depth_image)
-        # self.passenger_safe_pub = rospy.Publisher('/passenger_safe', Bool, queue_size=10)
-        # self.cart_empty_pub = rospy.Publisher('/cart_empty', Bool, queue_size=10)
+        # publish cart empty
         self.cart_empty_safe_pub = rospy.Publisher('/cart_empty_safe', String, queue_size=10)
         self.bridge = CvBridge()
 
@@ -55,36 +52,37 @@ class pose_tracking:
         # get default distance to chair on startup (set once camera feed begins)
         self.usual_chair_dist = None
 
-
-        print(self.usual_chair_dist)
-
         rate = rospy.Rate(100)
         while not rospy.is_shutdown():
             rate.sleep()
         cv2.destroyAllWindows()
 
-
-    ################################
-    ### ROS Topics To Publish To ###
-    ################################
-
     def sendCartEmptyPose(self, empty, safe):
+        '''
+        Ros topic passenger is present and passenger is safe
+        '''
         empty_safe_state = json.dumps({'passenger': not empty, 'safe': safe})
         print(empty_safe_state)
         self.cart_empty_safe_pub.publish(empty_safe_state)
 
     def get_usual_dist(self, cv_image):
-        # these are ok default values (if for some reason they aren't set)
-        # they're just here so i don't instatiate an array of 0's
+        '''
+        Sets the distances to the six seat points at launch
+        '''
+        # these are ok default values
         usual_dist = [1.18, 1.18, 1.19, 1.13, 1.05, 1.13]
 
         # get the distances of key points
         for index in range(len(self.key_points)):
             point_x, point_y = self.key_points[index]
-            usual_dist[index] = self.recorded_depth[(point_y, point_x)]
+            if (self.recorded_depth[(point_y, point_x)] > 0):
+                usual_dist[index] = self.recorded_depth[(point_y, point_x)]
         return usual_dist
 
     def get_poses(self, data):
+        '''
+        Callback for left color zed image runs open pose publishes to empty safe
+        '''
         try:
             cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
         except CvBridgeError as e:
@@ -102,15 +100,14 @@ class pose_tracking:
 
         # valid if in range and shoulders are within the boundaries
         valid_pose = 0
-        # some in cart but shoulders not within boundary
+        # passenger in cart but shoulders not within boundary
         invalid_pose = 0
-        # empty checks four points to determine if cart is opcupado 
+        # empty checks four points to determine if a passenger is present 
         empty = True
 
-        # make sure everything has started
         if self.recorded_depth is not None:
 
-            # set the key points if not already done
+            # set the chair key points 
             if(self.key_points is None):
                 left_x = 450
                 center_x = x / 2
@@ -148,7 +145,7 @@ class pose_tracking:
                 # set color
                 color = (255, 0, 0) # BLUE
 
-                 # if the current distance is different than the usual distance (plus a threshold)
+                # if the current distance is different than the usual distance (plus a threshold)
                 # increment the NOT empty spaces
                 # also set color to red instead of blue
                 # NOTE threshold hardcoded
