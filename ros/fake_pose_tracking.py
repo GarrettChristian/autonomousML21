@@ -5,7 +5,6 @@ import curses
 import json
 from std_msgs.msg import String
 
-
 class fake_pose_tracking(object):
     def __init__(self):
         rospy.init_node('fake_pose_tracking')
@@ -59,11 +58,8 @@ class fake_pose_tracking(object):
             self.cart_empty_safe_pub.publish(empty_safe_state)
         
             self.prev_key = keyval
-            # self.motion_pub.publish(self.msg)
-            # outstr = anglestr +  velstr + str(self.msg.angle)
-            # stdscr.addstr(4,0,anglestr + str(self.msg.angle))
             stdscr.addstr(11,0, empty_safe_state)
-            stdscr.addstr(12,0, '')
+            stdscr.addstr(13,0, '')
             rate.sleep()
 
 if __name__ == "__main__":

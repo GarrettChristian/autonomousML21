@@ -236,7 +236,7 @@ class pose_tracking:
         if ((invalid_pose > 0 or valid_pose > 3 or valid_pose == 0) and not empty):
             # post invalid pose
             self.num_consecutive_invalid += 1
-            if (self.num_consecutive_invalid > 4):
+            if (self.num_consecutive_invalid > 5):
                 passenger_safe = False
         else:
             self.num_consecutive_invalid = 0
