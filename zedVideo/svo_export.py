@@ -167,12 +167,15 @@ def main():
                 # Flip the video
                 flipped_image = cv2.flip(ocv_image_sbs_rgb, -1)
 
+                # Add box around time stamp
+                cv2.rectangle(flipped_image, (flipped_image.shape[1] // 2, flipped_image.shape[0]), (flipped_image.shape[1] // 2 + 370, flipped_image.shape[0] - 40), (0, 0, 0), -1)
+
                 # Add time stamp
                 dt = datetime.fromtimestamp(timestamp.get_nanoseconds() // 1000000000)
                 s = dt.strftime('%Y-%m-%d %H:%M:%S')
                 cv2.putText(flipped_image, s, (flipped_image.shape[1] // 2, flipped_image.shape[0] - 10), 
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA, False)
-                
+
                 # Write the RGB image in the video
                 video_writer.write(flipped_image)
             else:

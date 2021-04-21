@@ -7,14 +7,23 @@ import os
 import subprocess
 import pyaudio
 import wave
+from datetime import datetime
 from zed_interfaces.srv import *
 
 
 def main():
 
+    now = datetime.now()
+    n = len(sys.argv)
+    name = now.strftime("%m/%d/%Y_%H:%M:%S")
+    if (n > 1):
+        name = sys.argv[1]
+
+    print("Recoding Sound and Zed as: " + name + ".svo and " + name + ".wav")
+
     # Set up audio
     audio = pyaudio.PyAudio()
-    fname = "audio_zed.wav"
+    fname = name + ".wav"
     frmat = pyaudio.paInt16
     channels = 1
     rate = 44100
@@ -33,7 +42,7 @@ def main():
 
     try:
         start_recording = rospy.ServiceProxy('/zed/zed_node/start_svo_recording', start_svo_recording)
-        resp1 = start_recording('/home/jacart/catkin_ws/src/autonomousMLgc/zedVideo/new_svo.svo')
+        resp1 = start_recording('/home/jacart/catkin_ws/src/autonomousMLgc/zedVideo/' + name + ".svo")
         print(resp1)
     except rospy.ServiceException as e:
         print("Service call failed: %s"%e)

@@ -43,7 +43,7 @@ class pose_tracking:
         # depth threshold (filter cv image to be black beyond this distance)
         self.depth_threshold = 1.2 # meters
 
-        # chair threshold (trigger event if a key point is +- this value)
+        # chair threshold marks as not empty if a key point is +- this value
         self.chair_threshold = 0.08
 
         # the X and Y of key points (set once camera feed begins)
@@ -51,6 +51,9 @@ class pose_tracking:
 
         # get default distance to chair on startup (set once camera feed begins)
         self.usual_chair_dist = None
+
+        # The number of consecutive invalid positions recorded
+        self.num_consecutive_invalid = 0
 
         rate = rospy.Rate(100)
         while not rospy.is_shutdown():
@@ -67,9 +70,9 @@ class pose_tracking:
 
     def get_usual_dist(self, cv_image):
         '''
-        Sets the distances to the six seat points at launch
+        Sets the distances for the six chair points at launch
         '''
-        # these are ok default values
+        # default values
         usual_dist = [1.18, 1.18, 1.19, 1.13, 1.05, 1.13]
 
         # get the distances of key points
@@ -107,7 +110,7 @@ class pose_tracking:
 
         if self.recorded_depth is not None:
 
-            # set the chair key points 
+            # set the locations of the chair key points 
             if(self.key_points is None):
                 left_x = 450
                 center_x = x / 2
@@ -138,11 +141,10 @@ class pose_tracking:
                 # get x,y of empty points
                 point_x, point_y = self.key_points[index]
 
-                # get the distance set on startup and the actual distance
+                # get the distance set on startup to compare to the actual distance
                 usual_dist = self.usual_chair_dist[index]
                 chair_distance = self.recorded_depth[(point_y, point_x)]
 
-                # set color
                 color = (255, 0, 0) # BLUE
 
                 # if the current distance is different than the usual distance (plus a threshold)
@@ -189,11 +191,9 @@ class pose_tracking:
                     left_shoulder_dist = self.recorded_depth[(y_left_shoulder, x_left_shoulder)]
                     right_shoulder_dist = self.recorded_depth[(y_right_shoulder, x_right_shoulder)]
 
-                    # take the max as our distance
                     distance = float("-inf")
 
-                    # make sure distances are NOT NaN before checking,
-                    # if it is NaN or -inf set either to NaN
+                    # Set distance as max of neck, left, and right shoulders, or defualt to nan
                     if not math.isnan(neck_distance):
                         distance = max(distance, neck_distance)
                     if not math.isnan(left_shoulder_dist):
@@ -235,18 +235,12 @@ class pose_tracking:
         # check recorded poses that were within the depth
         if ((invalid_pose > 0 or valid_pose > 3 or valid_pose == 0) and not empty):
             # post invalid pose
-            passenger_safe = False
-        # elif(valid_pose > 0 and not empty):
-        #     # valid detected!
-        #     passenger_safe = True
+            self.num_consecutive_invalid += 1
+            if (self.num_consecutive_invalid > 4):
+                passenger_safe = False
+        else:
+            self.num_consecutive_invalid = 0
 
-        # if not empty:
-        #     self.sendCartNotEmpty()
-        # else:
-        #     self.sendCartEmpty()
-
-        # passenger 
-        # passenger_safe_pub = "{'passenger': {0}, 'safe': {1}}".format(empty, passenger_safe)
 
         self.sendCartEmptyPose(empty, passenger_safe)
 
@@ -255,6 +249,10 @@ class pose_tracking:
         cv2.waitKey(3)  
 
     def classify_depth(self, data):
+        '''
+        Callback for depth zed image
+        Removes anything farther than the threshold
+        '''
         try:
             cv_image = self.bridge.imgmsg_to_cv2(data, "32FC1")
         except CvBridgeError as e:
